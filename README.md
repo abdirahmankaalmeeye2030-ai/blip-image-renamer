@@ -2,8 +2,13 @@
 
 An AI tool that automatically captions images and renames them based on what they show, using Salesforce's BLIP model from Hugging Face.
 
-**Before:** `IMG_4521.png`
-**After:** `a_glass_of_iced_coffee_on_a_table.png`
+
+
+**Before:** `IMG_202777.png`
+**After:** `a_cheetah_drinking_water_from_a_pond_in_the_middle_of_a_forest.png`
+
+![Before](images/before.png)
+![After](images/after.png)
 
 ## ✨ Features
 - Captions every image in a folder (jpg, jpeg, png)
@@ -31,6 +36,7 @@ python caption_folder.py
 - How image-to-text models work: convert the image, process it, generate a caption, and decode it.
 - The base model gives short captions, while the large model gives more detail.
 - BLIP describes photos well but can't read text in posters. OCR (reading text from images) is the next upgrade.
+- Post-processing: cleaning model output (e.g., removing BLIP's "araffe" quirk) before using it.
 
 ## 🎓 Context
 Built while taking IBM's *Building Generative AI-Powered Applications with Python* course.

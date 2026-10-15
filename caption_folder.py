@@ -7,7 +7,7 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
-image_dir = r"D:\test_images_captionizer"
+image_dir = r"D:\demo_photos"
 image_exts = ["jpg", "jpeg", "png"]
 
 # Collect all images FIRST, so renaming doesn't confuse the loop
@@ -26,6 +26,8 @@ with open("captions.txt", "w", encoding="utf-8") as f:
             out = model.generate(**inputs, max_new_tokens=50)
             caption = processor.decode(out[0], skip_special_tokens=True)
 
+            caption = caption.replace("araffe ", "").replace("arafed ", "")
+
             # Make a safe filename: remove bad characters, spaces -> _
             safe = re.sub(r'[\\/:*?"<>|]', "", caption).strip().replace(" ", "_")
             ext_part = os.path.splitext(img_path)[1].lower()
@@ -33,6 +35,11 @@ with open("captions.txt", "w", encoding="utf-8") as f:
             # If the name already exists, add _1, _2 ...
             new_path = os.path.join(image_dir, safe + ext_part)
             counter = 1
+
+            if os.path.abspath(new_path) == os.path.abspath(img_path):
+                print(f"{os.path.basename(img_path)} already named, skipping")
+                continue
+
             while os.path.exists(new_path):
                 new_path = os.path.join(image_dir, f"{safe}_{counter}{ext_part}")
                 counter += 1
